@@ -1,31 +1,29 @@
 import React, { useState } from 'react';
 import { Card } from 'semantic-ui-react';
-
-const HogTile = ({ hog }) => {
-    const [showDetails, setShowDetails] = useState(false);
-    const [isVisible, setIsVisible] = useState(true);
-
-    if (!isVisible) return null;
-
+const HogTile = ({ hog, hideHog }) => {
+    const { name, specialty, weight, greased, "highest medal achieved": medal, image } = hog;
+    const [isDescriptionVisible, setIsDescriptionVisible] = useState(false); // Track visibility
+    const toggleDescription = () => {
+        setIsDescriptionVisible(prev => !prev); // Toggle description visibility
+    };
     return (
-        <Card onClick={() => setShowDetails(!showDetails)}>
+        <Card onClick={toggleDescription} style={{ cursor: 'pointer' }}> {/* Click to toggle */}
             <Card.Content>
-                <Card.Header>{hog.name}</Card.Header>
-                <Card.Description>
-                    <img src={hog.image} alt={hog.name} />
-                </Card.Description>
-                {showDetails && (
-                    <Card.Description>
-                        <p>Specialty: {hog.specialty}</p>
-                        <p>Weight: {hog.weight}</p>
-                        <p>Greased: {hog.greased ? 'Yes' : 'No'}</p>
-                        <p>Highest Medal: {hog['highest medal achieved']}</p>
-                        <button onClick={() => setIsVisible(false)}>Hide</button>
-                    </Card.Description>
-                )}
+                <img src={image} alt={name} />
+                <Card.Header>{name}</Card.Header>
+                {
+                    isDescriptionVisible && ( // Conditionally render description
+                        <div className='description'>
+                            <p>Specialty: {specialty}</p>
+                            <p>Weight: {weight}</p>
+                            <p>Greased: {greased ? 'Yes' : 'No'}</p>
+                            <p>Highest Medal Achieved: {medal}</p>
+                            <button className='Hider' onClick={(e) => { e.stopPropagation(); hideHog(name); }}>Hide</button>
+                        </div>
+                    )
+                }
             </Card.Content>
         </Card>
     );
 };
-
-export default HogTile; 
+export default HogTile;

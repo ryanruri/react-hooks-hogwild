@@ -47,7 +47,9 @@ function App() {
             <AddHogForm addHog={addHog} />
             <div className="ui grid container">
                 {filteredHogs.map((hog) => (
+                    <div classname="ui eight wide column">
                     <HogTile key={hog.name} hog={hog} />
+                    </div>
                 ))}
             </div>
         </div>
